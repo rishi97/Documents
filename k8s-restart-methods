@@ -1,0 +1,23 @@
+# Various ways to restart pods
+
+## Restart deployment
+The most gracefull way is to trigger a restart for the deployment.
+In this case, a pod will only be terminated once the new pod is ready.
+It will slowly replace all pods one after the other.
+
+    kubectl rollout restart deployment <deployment-name>
+
+## Restart pods in a statefulset
+This is similar to restarting a deployment but for stateful sets:
+
+    kubectl rollout restart statefulset <statefulset-name>
+
+## Hard / Forcefully restart a pod
+Since pods are defined in a deployment, if one pod crashes or is killed, 
+the deployment will automatically reschedule a new pod.
+
+The effect is, that the pod will be sent to termination first and only then
+the new instance will be scheduled.
+This will lead to a gap where this instance is missing.
+
+    kubectl delete pod <pod-name>
